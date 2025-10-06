@@ -1,0 +1,212 @@
+import * as readlineSync from 'readline-sync';
+import { GerenciadorAeronaves } from '../services/gerenciadorAeronaves';
+import { Peca } from '../models/peca';
+import { TipoPeca } from '../models/types';
+import { StatusPeca } from '../models/status';
+import { CodigoBase } from './codigoBase';
+
+export class PecaInterface extends CodigoBase {
+    private gerenciador: GerenciadorAeronaves;
+    private pecas: Peca[] = [];
+
+    constructor() {
+        super('PEÇA');
+        this.gerenciador = new GerenciadorAeronaves();
+    }
+
+    protected gerarNovoCodigo(): string {
+        return this.gerenciador.gerarCodigoPeca();
+    }
+
+    menu(): void {
+        let continuar = true;
+        while (continuar) {
+            this.exibirCabecalho('GERENCIAR PECAS');
+            console.log('1. Cadastrar Nova Peca');
+            console.log('2. Listar Pecas');
+            console.log('3. Atualizar Status de Peca');
+            console.log('4. Excluir Peca');
+            console.log('5. Editar Peca');
+            console.log('0. Voltar');
+
+            const opcao = this.solicitarOpcao();
+
+            switch (opcao) {
+                case '1': this.cadastrar(); break;
+                case '2': this.listar(); break;
+                case '3': this.atualizarStatus(); break;
+                case '4': this.excluir(); break;
+                case '5': this.editar(); break;
+                case '0': continuar = false; break;
+                default:
+                    this.exibirErro();
+                    this.aguardarEnter();
+            }
+        }
+    }
+
+    cadastrar(): void {
+        this.exibirCabecalho('CADASTRAR NOVA PECA');
+
+        const nome = this.solicitarTexto('Nome');
+        const codigo = this.gerarNovoCodigo();
+        const fornecedor = this.solicitarTexto('Fornecedor');
+
+        console.log('\nTipos disponiveis:\n1. NACIONAL\n2. IMPORTADA');
+        const tipoOpcao = this.solicitarOpcao('Escolha o tipo: ');
+        const tipo = tipoOpcao === '1' ? TipoPeca.NACIONAL : TipoPeca.IMPORTADA;
+
+        console.log('\nStatus disponiveis:\n1. EM PRODUCAO\n2. EM TRANSPORTE\n3. PRONTA');
+        const statusOpcao = this.solicitarOpcao('Escolha o status: ');
+        let status: StatusPeca;
+        switch (statusOpcao) {
+            case '1': status = StatusPeca.EMPRODUCAO; break;
+            case '2': status = StatusPeca.EMTRANSPORTE; break;
+            case '3': status = StatusPeca.PRONTA; break;
+            default: status = StatusPeca.EMPRODUCAO;
+        }
+
+        const peca = new Peca(nome, codigo, fornecedor, status, tipo);
+        this.pecas.push(peca);
+        this.exibirSucesso('Peca cadastrada com sucesso!');
+        this.aguardarEnter();
+    }
+
+    listar(): void {
+        this.exibirCabecalho('LISTA DE PECAS');
+
+        if (this.pecas.length === 0) {
+            this.exibirListaVazia('peca');
+        } else {
+            this.pecas.forEach((p, i) => {
+                console.log(`\n${i + 1}. ${p.nome}`);
+                console.log(`   Codigo: ${p.codigo}`);
+                console.log(`   Fornecedor: ${p.fornecedor}`);
+                console.log(`   Tipo: ${p.tipo}`);
+                console.log(`   Status: ${p.status}`);
+            });
+        }
+
+        this.aguardarEnter();
+    }
+
+    atualizarStatus(): void {
+        this.exibirCabecalho('ATUALIZAR STATUS DE PECA');
+
+        if (this.pecas.length === 0) {
+            this.exibirListaVazia('peca');
+            this.aguardarEnter();
+            return;
+        }
+
+        this.pecas.forEach((p, i) => {
+            console.log(`${i + 1}. ${p.nome} - Status: ${p.status}`);
+        });
+
+        const indice = parseInt(this.solicitarOpcao('\nEscolha a peca (numero): ')) - 1;
+
+        if (!this.validarIndice(indice, this.pecas.length)) {
+            this.exibirErro();
+            this.aguardarEnter();
+            return;
+        }
+
+        console.log('\nStatus disponiveis:\n1. EM PRODUCAO\n2. EM TRANSPORTE\n3. PRONTA');
+        const statusOpcao = this.solicitarOpcao('Escolha o status: ');
+        let status: StatusPeca;
+        switch (statusOpcao) {
+            case '1': status = StatusPeca.EMPRODUCAO; break;
+            case '2': status = StatusPeca.EMTRANSPORTE; break;
+            case '3': status = StatusPeca.PRONTA; break;
+            default: status = StatusPeca.EMPRODUCAO;
+        }
+
+        this.pecas[indice].status = status;
+        this.exibirSucesso('Status atualizado com sucesso!');
+        this.aguardarEnter();
+    }
+
+    excluir(): void {
+        this.exibirCabecalho('EXCLUIR PECA');
+
+        if (this.pecas.length === 0) {
+            this.exibirListaVazia('peca');
+            this.aguardarEnter();
+            return;
+        }
+
+        this.pecas.forEach((p, i) => {
+            console.log(`${i + 1}. ${p.nome}`);
+        });
+
+        const indice = parseInt(this.solicitarOpcao('\nEscolha a peca para excluir (numero): ')) - 1;
+
+        if (this.validarIndice(indice, this.pecas.length)) {
+            const removida = this.pecas.splice(indice, 1)[0];
+            this.exibirSucesso(`Peca ${removida.nome} excluida com sucesso!`);
+        } else {
+            this.exibirErro();
+        }
+
+        this.aguardarEnter();
+    }
+
+    editar(): void {
+        this.exibirCabecalho('EDITAR PECA');
+
+        if (this.pecas.length === 0) {
+            this.exibirListaVazia('peca');
+            this.aguardarEnter();
+            return;
+        }
+
+        this.pecas.forEach((p, i) => {
+            console.log(`${i + 1}. ${p.nome}`);
+        });
+
+        const indice = parseInt(this.solicitarOpcao('\nEscolha a peca (numero): ')) - 1;
+
+        if (!this.validarIndice(indice, this.pecas.length)) {
+            this.exibirErro();
+            this.aguardarEnter();
+            return;
+        }
+
+        const peca = this.pecas[indice];
+        let continuar = true;
+
+        while (continuar) {
+            this.exibirCabecalho(`EDITAR PECA: ${peca.nome}`);
+            console.log(`1. Nome: ${peca.nome}`);
+            console.log(`2. Fornecedor: ${peca.fornecedor}`);
+            console.log(`3. Tipo: ${peca.tipo}`);
+            console.log('0. Voltar');
+
+            const campo = this.solicitarOpcao('\nEscolha o campo a editar: ');
+
+            switch (campo) {
+                case '1':
+                    peca.nome = this.solicitarTexto('Novo Nome');
+                    this.exibirSucesso('Nome atualizado!');
+                    break;
+                case '2':
+                    peca.fornecedor = this.solicitarTexto('Novo Fornecedor');
+                    this.exibirSucesso('Fornecedor atualizado!');
+                    break;
+                case '3':
+                    console.log('\nTipos disponiveis:\n1. NACIONAL\n2. IMPORTADA');
+                    const tipoOpcao = this.solicitarOpcao('Escolha o tipo: ');
+                    peca.tipo = tipoOpcao === '1' ? TipoPeca.NACIONAL : TipoPeca.IMPORTADA;
+                    this.exibirSucesso('Tipo atualizado!');
+                    break;
+                case '0':
+                    continuar = false;
+                    break;
+                default:
+                    this.exibirErro();
+            }
+
+            if (campo !== '0') this.aguardarEnter();
+        }
+    }
+}

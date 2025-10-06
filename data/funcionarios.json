@@ -1,0 +1,47 @@
+[
+  {
+    "id": "001",
+    "nome": "José",
+    "telefone": "12-11111111",
+    "endereco": "Rua Engenheiro Jose Longo, 622 - São José dos Campos - SP",
+    "usuario": "jose",
+    "senha": "senha123",
+    "nivelPermissao": "ENGENHEIRO"
+  },
+  {
+    "id": "002",
+    "nome": "Dani",
+    "telefone": "12-22222222",
+    "endereco": "Rua Engenheiro Jose Longo, 622 - São José dos Campos - SP",
+    "usuario": "dani",
+    "senha": "senha456",
+    "nivelPermissao": "ADMINISTRADOR"
+  },
+  {
+    "id": "003",
+    "nome": "Amy",
+    "telefone": "12-33333333",
+    "endereco": "Rua Engenheiro Jose Longo, 622 - São José dos Campos - SP",
+    "usuario": "amy",
+    "senha": "senha789",
+    "nivelPermissao": "OPERADOR"
+  },
+  {
+    "id": "004",
+    "nome": "Frida",
+    "telefone": "12-44444444",
+    "endereco": "Rua Engenheiro Jose Longo, 622 - São José dos Campos - SP",
+    "usuario": "frida",
+    "senha": "senha101",
+    "nivelPermissao": "ENGENHEIRO"
+  },
+  {
+    "id": "005",
+    "nome": "Hanna",
+    "telefone": "12-55555555",
+    "endereco": "Rua Engenheiro Jose Longo, 622 - São José dos Campos - SP",
+    "usuario": "hanna",
+    "senha": "senha202",
+    "nivelPermissao": "OPERADOR"
+  }
+]

@@ -1,0 +1,27 @@
+{
+  "name": "av1",
+  "version": "1.0.0",
+  "description": "Sistema de gerenciamento de aeronaves",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "tsc && node dist/index.js"
+  },
+  "keywords": [
+    "typescript",
+    "aeronave",
+    "poo"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/readline-sync": "^1.4.8",
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "chalk": "^5.6.2",
+    "readline-sync": "^1.4.10"
+  }
+}

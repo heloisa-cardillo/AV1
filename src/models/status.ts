@@ -1,0 +1,20 @@
+export enum StatusPeca {
+    EMPRODUCAO = "EM PRODUCAO",
+    EMTRANSPORTE = "EM TRANSPORTE",
+    PRONTA = "PRONTA",
+    INSTALADA = "INSTALADA"
+}
+
+export enum StatusEtapa {
+    NAOINICIADA = "NAO INICIADA",
+    EMANDAMENTO = "EM ANDAMENTO",
+    CONCLUIDA = "CONCLUIDA",
+    CANCELADA = "CANCELADA"
+}
+
+export enum StatusTeste {
+    PENDENTE = "PENDENTE",
+    EMANDAMENTO = "EM ANDAMENTO",
+    APROVADO = "APROVADO",
+    REPROVADO = "REPROVADO"
+}
