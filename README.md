@@ -1,6 +1,6 @@
 # Sistema Aerocode - Gestão de Produção de Aeronaves
 
-Sistema completo de gerenciamento para produção de aeronaves, desenvolvido em TypeScript com aplicação de princípios avançados de Programação Orientada a Objetos (POO).
+Sistema completo de gerenciamento para produção de aeronaves, desenvolvido em TypeScript com aplicação de princípios de Programação Orientada a Objetos (POO).
 
 ---
 
@@ -42,10 +42,10 @@ npm run dev
 ## Funcionalidades Principais
 
 - Gestão completa de aeronaves, peças, etapas, funcionários e testes
-- Sistema de autenticação (máximo 3 tentativas)
+- Sistema de autenticação com controle de acesso
 - Controle de permissões por nível
-- Persistência automática em JSON
-- Interface CLI colorida
+- Persistência de dados em arquivos
+- Interface CLI
 
 ---
 
@@ -88,48 +88,14 @@ src/
 │   └── relatorioInterface.ts
 └── index.ts
 ```
+
 </details>
 
 ---
 
-## Enumerações do Sistema
-
-<details>
-<summary>Ver todas as enumerações</summary>
-
-### Tipos e Status
-- **TipoAeronave**: COMERCIAL, MILITAR
-- **TipoPeca**: NACIONAL, IMPORTADA
-- **StatusPeca**: EMPRODUCAO, EMTRANSPORTE, PRONTA
-- **StatusEtapa**: NAOINICIADA, EMANDAMENTO, CONCLUIDA, CANCELADA
-
-### Permissões e Testes
-- **NivelPermissao**: ADMINISTRADOR, ENGENHEIRO, OPERADOR
-- **TipoTeste**: ELETRICO, HIDRAULICO, AERODINAMICO
-- **ResultadoTeste**: APROVADO, REPROVADO
-</details>
-
----
-
-## Checklist de Implementação
-
-### Requisitos Obrigatórios
-- [x] Todas as classes do diagrama UML
-- [x] Todos os atributos conforme especificação
-- [x] Todas as enumerações
-- [x] Relacionamentos (composição/agregação)
-- [x] Métodos principais de cada classe
-
-### Melhorias de POO
-- [x] Encapsulamento completo
-- [x] Herança aplicada em todas as classes CLI
-- [x] Polimorfismo via métodos utilitários
-- [x] Abstração com classe base
-
-### Funcionalidades Extras
-- [x] Sistema de login com autenticação
-- [x] Controle de permissões por nível
-- [x] Persistência automática em JSON
+## Funcionalidades Extras
 - [x] 5 usuários pré-cadastrados (mock data)
-- [x] Interface CLI completa com cores
-- [x] Validações e tratamento de erros
+- [x] Interface CLI com cores
+- [x] Validações e tratamento de erros 
+- [x] Limite de 3 tentativas de login
+- [x] Status CANCELADA para etapas
