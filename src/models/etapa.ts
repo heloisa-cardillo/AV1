@@ -30,7 +30,12 @@ export class Etapa {
         this._ordem = ordem
     }
 
-    iniciar(): void {
+    iniciar(etapaAnteriorConcluida: boolean = true): void {
+        if (!etapaAnteriorConcluida && this._ordem > 1) {
+            console.log(`ERRO: A etapa anterior (ordem ${this._ordem - 1}) precisa ser concluída antes de iniciar "${this.nome}"!`)
+            return
+        }
+        
         if (this.status === StatusEtapa.CONCLUIDA) {
             console.log(`ERRO: A etapa ${this.nome} já foi concluída e não pode ser reiniciada!`)
             return

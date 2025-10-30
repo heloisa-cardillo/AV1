@@ -96,7 +96,12 @@ export class EtapaInterface extends CodigoBase {
         const indice = parseInt(this.solicitarOpcao('\nEscolha a etapa (numero): ')) - 1;
         
         if (this.validarIndice(indice, this.etapas.length)) {
-            this.etapas[indice].iniciar();
+            const etapaSelecionada = this.etapas[indice];
+            
+            // Verificar se a etapa anterior foi concluída
+            const etapaAnteriorConcluida = this.verificarEtapaAnteriorConcluida(etapaSelecionada.ordem);
+            
+            etapaSelecionada.iniciar(etapaAnteriorConcluida);
             this.exibirSucesso('Etapa iniciada!');
         } else {
             this.exibirErro();
@@ -271,5 +276,24 @@ export class EtapaInterface extends CodigoBase {
         }
         
         this.aguardarEnter();
+    }
+
+    // Método auxiliar para verificar se a etapa anterior foi concluída
+    private verificarEtapaAnteriorConcluida(ordemAtual: number): boolean {
+        // Se é a primeira etapa (ordem 1), não precisa de validação
+        if (ordemAtual <= 1) {
+            return true;
+        }
+
+        // Procura a etapa anterior
+        const etapaAnterior = this.etapas.find(e => e.ordem === ordemAtual - 1);
+        
+        // Se não encontrar etapa anterior, assume como concluída
+        if (!etapaAnterior) {
+            return true;
+        }
+
+        // Retorna se a etapa anterior está concluída
+        return etapaAnterior.status === StatusEtapa.CONCLUIDA;
     }
 }

@@ -10,12 +10,12 @@ export class RelatorioInterface {
         while (continuar) {
             console.clear();
             console.log('\n=== GERAR RELATORIOS ===');
-            console.log('1. Gerar Relatorio de Aeronave');
+            console.log('1. Exibir Relatorio de Aeronave');
             console.log('2. Salvar Relatorio em Arquivo');
             console.log('0. Voltar');
             const opcao = readlineSync.question('\nEscolha uma opcao: ');
             switch (opcao) {
-                case '1': this.gerar(); break;
+                case '1': this.exibir(); break;
                 case '2': this.salvar(); break;
                 case '0': continuar = false; break;
                 default:
@@ -25,9 +25,9 @@ export class RelatorioInterface {
         }
     }
 
-    gerar(): void {
+    exibir(): void {
         console.clear();
-        console.log('\n=== GERAR RELATORIO DE AERONAVE ===');
+        console.log('\n=== EXIBIR RELATORIO DE AERONAVE ===');
         const aeronaves = this.gerenciadorAeronaves.listarAeronaves();
         if (!aeronaves.length) {
             console.log('Nenhuma aeronave cadastrada.');
@@ -37,15 +37,31 @@ export class RelatorioInterface {
         aeronaves.forEach((a, i) => console.log(`${i + 1}. ${a.modelo} (${a.codigo})`));
         const indice = parseInt(readlineSync.question('\nEscolha a aeronave (numero): ')) - 1;
         if (indice >= 0 && indice < aeronaves.length) {
-            new Relatorio().gerarRelatorio(aeronaves[indice]);
-        } else console.log('\nOpcao invalida!');
+            const relatorio = new Relatorio();
+            relatorio.exibirRelatorio(aeronaves[indice]);
+        } else {
+            console.log('\nOpcao invalida!');
+        }
         readlineSync.question('\nPressione ENTER para continuar...');
     }
 
     salvar(): void {
         console.clear();
         console.log('\n=== SALVAR RELATORIO EM ARQUIVO ===');
-        new Relatorio().salvarEmArquivo();
+        const aeronaves = this.gerenciadorAeronaves.listarAeronaves();
+        if (!aeronaves.length) {
+            console.log('Nenhuma aeronave cadastrada.');
+            readlineSync.question('\nPressione ENTER para continuar...');
+            return;
+        }
+        aeronaves.forEach((a, i) => console.log(`${i + 1}. ${a.modelo} (${a.codigo})`));
+        const indice = parseInt(readlineSync.question('\nEscolha a aeronave (numero): ')) - 1;
+        if (indice >= 0 && indice < aeronaves.length) {
+            const relatorio = new Relatorio();
+            relatorio.salvarEmArquivo(aeronaves[indice]);
+        } else {
+            console.log('\nOpcao invalida!');
+        }
         readlineSync.question('\nPressione ENTER para continuar...');
     }
 }

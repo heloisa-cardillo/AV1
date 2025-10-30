@@ -15,6 +15,7 @@ import { EtapaInterface } from './cli/etapaInterface';
 import { FuncionarioInterface } from './cli/funcionarioInterface';
 import { TesteInterface } from './cli/testeInterface';
 import { RelatorioInterface } from './cli/relatorioInterface';
+import { Relatorio } from './services/relatorios'
 
 class SistemaAerocode {
     private funcionarioLogado: Funcionario | null
