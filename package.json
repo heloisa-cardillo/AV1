@@ -7,7 +7,7 @@
     "build": "tsc",
     "start": "node dist/index.js",
     "dev": "tsc && node dist/index.js",
-    "test": "echo No tests specified"
+  "test": "node -e \"console.log('No tests specified')\""
   },
   "keywords": [
     "typescript",
